@@ -23,7 +23,7 @@ namespace ExpenseTracker.Controllers
             {
                 return BadRequest($"cannot register {userDTO.Name}");
             }
-            return Ok($"User Account Created Successfully!");
+            return Ok(res);
         }
 
         [HttpPost("Login")]

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ExpenseTracker.Models;
 
 namespace ExpenseTracker.Models
 {
@@ -28,5 +29,7 @@ namespace ExpenseTracker.Models
         {
 
         }
+
+        public DbSet<ExpenseTracker.Models.Expense>? Expense { get; set; }
     }
 }

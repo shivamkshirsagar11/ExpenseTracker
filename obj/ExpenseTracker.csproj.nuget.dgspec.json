@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\ExpenseTracker\\ExpenseTracker.csproj": {}
+    "F:\\t\\ExpenseTracker\\ExpenseTracker.csproj": {}
   },
   "projects": {
-    "F:\\ExpenseTracker\\ExpenseTracker.csproj": {
+    "F:\\t\\ExpenseTracker\\ExpenseTracker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\ExpenseTracker\\ExpenseTracker.csproj",
+        "projectUniqueName": "F:\\t\\ExpenseTracker\\ExpenseTracker.csproj",
         "projectName": "ExpenseTracker",
-        "projectPath": "F:\\ExpenseTracker\\ExpenseTracker.csproj",
+        "projectPath": "F:\\t\\ExpenseTracker\\ExpenseTracker.csproj",
         "packagesPath": "C:\\Users\\Shivam\\.nuget\\packages\\",
-        "outputPath": "F:\\ExpenseTracker\\obj\\",
+        "outputPath": "F:\\t\\ExpenseTracker\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Shivam\\AppData\\Roaming\\NuGet\\NuGet.Config",

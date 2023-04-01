@@ -7,64 +7,61 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExpenseTracker.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 
 namespace ExpenseTracker.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class ExpensesController : ControllerBase
     {
         private readonly ExpenseTrackerContext _context;
 
-        public UsersController(ExpenseTrackerContext context)
+        public ExpensesController(ExpenseTrackerContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/Expenses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<Expense>>> GetExpense()
         {
-          if (_context.Users == null)
+          if (_context.Expense == null)
           {
               return NotFound();
           }
-            return await _context.Users.ToListAsync();
+            return await _context.Expense.ToListAsync();
         }
 
-        // POST: api/Users
-        [HttpPost]
-        [Route("/self")]
-        public async Task<ActionResult<User>> GetUser()
+        // GET: api/Expenses/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Expense>> GetExpense(int id)
         {
-            int id = Int32.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            if (_context.Users == null)
+          if (_context.Expense == null)
+          {
+              return NotFound();
+          }
+            var expense = await _context.Expense.FindAsync(id);
+
+            if (expense == null)
             {
                 return NotFound();
             }
-            var user = await _context.Users.FindAsync(id);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return user;
+            return expense;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Expenses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutExpense(int id, Expense expense)
         {
-            
-            if (id != user.UserId)
+            if (id != expense.Id)
             {
                 return BadRequest();
             }
-            _context.Entry(user).State = EntityState.Modified;
+
+            _context.Entry(expense).State = EntityState.Modified;
 
             try
             {
@@ -72,7 +69,7 @@ namespace ExpenseTracker.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!ExpenseExists(id))
                 {
                     return NotFound();
                 }
@@ -81,46 +78,48 @@ namespace ExpenseTracker.Controllers
                     throw;
                 }
             }
+
             return NoContent();
         }
-        // POST: api/Users
+
+        // POST: api/Expenses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<Expense>> PostExpense(Expense expense)
         {
-          if (_context.Users == null)
+          if (_context.Expense == null)
           {
-              return Problem("Entity set 'ExpenseTrackerContext.Users'  is null.");
+              return Problem("Entity set 'ExpenseTrackerContext.Expense'  is null.");
           }
-            _context.Users.Add(user);
+            _context.Expense.Add(expense);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            return CreatedAtAction("GetExpense", new { id = expense.Id }, expense);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Expenses/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteExpense(int id)
         {
-            if (_context.Users == null)
+            if (_context.Expense == null)
             {
                 return NotFound();
             }
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var expense = await _context.Expense.FindAsync(id);
+            if (expense == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.Expense.Remove(expense);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool ExpenseExists(int id)
         {
-            return (_context.Users?.Any(e => e.UserId == id)).GetValueOrDefault();
+            return (_context.Expense?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
