@@ -6,6 +6,7 @@ export default function ExpenseList({ userId }) {
   const [expenses, setExpenses] = useState([]);
   const [editExpenses, setEditExpenses] = useState({});
   const [hide, setHide] = useState(false);
+  const [deleteFlag, setDeleteFlag] = useState(false);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function ExpenseList({ userId }) {
       }
     }
     loadExpense();
-  });
+  },[hide, deleteFlag]);
   const handleChange = (e) => {
     setEditExpenses({ ...editExpenses, [e.target.name]: e.target.value });
   };
@@ -54,10 +55,31 @@ export default function ExpenseList({ userId }) {
        body: bodyContent,
        headers: headersList
      });
-     
-     let data = await response.text();
-     console.log(data);
+     if (response.status !== 204){
+      toast.error("something went wrong")
+      navigate("/home")
+     }
+     toast.info("Expense updated")
      setHide(!hide)
+  }
+  const handleDelete = async(id)=>{
+    let headersList = {
+      "Accept": "*/*",
+      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+     }
+     
+     let response = await fetch(`https://localhost:7186/api/Expenses/${id}`, { 
+       method: "DELETE",
+       headers: headersList
+     });
+     if (response.status !== 204){
+      toast.error("something went wrong")
+      navigate("/home")
+     }
+     toast.info("Expense Deleted")
+     setDeleteFlag(!deleteFlag)
   }
   return (
     <div>
@@ -94,7 +116,11 @@ export default function ExpenseList({ userId }) {
                     Edit
                   </button>
                 </td>
-                <td>delete</td>
+                <td><button
+                    onClick={(e)=>handleDelete(ele.id)}
+                  >
+                    Delete
+                  </button></td>
               </tr>
             );
           })}

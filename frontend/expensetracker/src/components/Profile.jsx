@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Navbar from './Navbar';
-
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 export default function Profile(props) {
-    console.log(props)
+    const navigate = useNavigate()
     const {name, email} = props.user
   const [uname, setName] = useState(name);
   const [uemail, setEmail] = useState(email);
@@ -28,10 +29,12 @@ export default function Profile(props) {
          body: bodyContent,
          headers: headersList
        });
-       
-       let data = await response.text();
-       console.log(data);
-       
+       if(response.status !== 204){
+        toast.error("Something Went Wrong")
+        navigate("/home")
+       }
+       toast.info("Profile Updated")
+       navigate("/home")
   }
     return (
         <div>

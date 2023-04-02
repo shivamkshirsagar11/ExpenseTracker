@@ -37,6 +37,7 @@ export default function ExpenseAdd({user}) {
             localStorage.removeItem('token')
             navigate("/")
            }
+           navigate("/get/expenses")
     }
 
   return (
