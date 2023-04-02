@@ -34,7 +34,7 @@ namespace ExpenseTracker.Controllers
             return await _context.Users.ToListAsync();
         }
 
-        // POST: api/Users
+        // POST: api/self
         [HttpPost]
         [Route("/self")]
         public async Task<ActionResult<User>> GetUser()

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Navbar from "./Navbar";
 export default function ExpenseList({ userId }) {
   const [expenses, setExpenses] = useState([]);
@@ -38,7 +38,7 @@ export default function ExpenseList({ userId }) {
         toast.error("Something went wrong");
       }
     }
-    loadExpense();
+    loadExpense(); // eslint-disable-next-line
   }, [hide, deleteFlag]);
   const handleChange = (e) => {
     setEditExpenses({ ...editExpenses, [e.target.name]: e.target.value });
@@ -90,22 +90,34 @@ export default function ExpenseList({ userId }) {
     setDeleteFlag(!deleteFlag);
   };
   return (
-    <div>
+    <div className="container">
       <Navbar />
       {expenses.length === 0 && (
-        <span style={{ color: "red" }}>No expense added</span>
+        <figure className="text-center">
+          <blockquote className="blockquote">
+            <p style={{ color: "red" }}>No Expense Added</p>
+          </blockquote>
+          <figcaption className="blockquote-footer">
+            Add from{" "}
+            <cite title="Source Title">
+              <Link to="/home">HomePage</Link>
+            </cite>
+          </figcaption>
+        </figure>
       )}
       {!hide && expenses.length > 0 && (
-        <table>
-          <tr>
-            <th>Id</th>
-            <th>Item Name</th>
-            <th>Date</th>
-            <th>Amount</th>
-            <th>Category</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
+        <table className="table">
+          <thead className="table-dark">
+            <tr>
+              <th>Id</th>
+              <th>Expense Name</th>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Payment Mode</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
           {expenses.map((ele) => {
             return (
               <tr key={ele.id}>
@@ -116,6 +128,7 @@ export default function ExpenseList({ userId }) {
                 <td>{ele.category}</td>
                 <td>
                   <button
+                    className="btn btn-primary"
                     onClick={(e) => {
                       setEditExpenses(ele);
                       setHide(!hide);
@@ -125,7 +138,12 @@ export default function ExpenseList({ userId }) {
                   </button>
                 </td>
                 <td>
-                  <button onClick={(e) => handleDelete(ele.id)}>Delete</button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={(e) => handleDelete(ele.id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             );
@@ -134,18 +152,19 @@ export default function ExpenseList({ userId }) {
       )}
       {hide && (
         <>
-          <table>
+          <table className="table">
+            <thead className="table-dark">
+              <tr>
+                <th>Expense Name</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Payment Mode</th>
+              </tr>
+            </thead>
             <tr>
-              <th>Id</th>
-              <th>Item Name</th>
-              <th>Date</th>
-              <th>Amount</th>
-              <th>Category</th>
-            </tr>
-            <tr>
-              <td>{editExpenses.id}</td>
               <td>
                 <input
+                  className="form-control"
                   type="text"
                   name="name"
                   onChange={handleChange}
@@ -154,6 +173,7 @@ export default function ExpenseList({ userId }) {
               </td>
               <td>
                 <input
+                  className="form-control"
                   type="date"
                   name="date"
                   onChange={handleChange}
@@ -162,6 +182,7 @@ export default function ExpenseList({ userId }) {
               </td>
               <td>
                 <input
+                  className="form-control"
                   type="text"
                   name="amount"
                   onChange={handleChange}
@@ -169,7 +190,12 @@ export default function ExpenseList({ userId }) {
                 />
               </td>
               <td>
-                <select id="type" name="category" onChange={handleChange}>
+                <select
+                  className="form-control"
+                  id="type"
+                  name="category"
+                  onChange={handleChange}
+                >
                   <option value="chooseOne">{editExpenses.category}</option>
                   <option value="Card">Card</option>
                   <option value="Cash">Cash</option>
@@ -178,7 +204,9 @@ export default function ExpenseList({ userId }) {
               </td>
             </tr>
           </table>
-          <button onClick={handleEdit}>done</button>
+          <button className="btn btn-warning" onClick={handleEdit}>
+            done
+          </button>
         </>
       )}
     </div>
