@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "F:\\t\\ExpenseTracker\\ExpenseTracker.csproj": {}
+    "D:\\SEM6\\WSD\\ExpenseTracker\\ExpenseTracker.csproj": {}
   },
   "projects": {
-    "F:\\t\\ExpenseTracker\\ExpenseTracker.csproj": {
+    "D:\\SEM6\\WSD\\ExpenseTracker\\ExpenseTracker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\t\\ExpenseTracker\\ExpenseTracker.csproj",
+        "projectUniqueName": "D:\\SEM6\\WSD\\ExpenseTracker\\ExpenseTracker.csproj",
         "projectName": "ExpenseTracker",
-        "projectPath": "F:\\t\\ExpenseTracker\\ExpenseTracker.csproj",
-        "packagesPath": "C:\\Users\\Shivam\\.nuget\\packages\\",
-        "outputPath": "F:\\t\\ExpenseTracker\\obj\\",
+        "projectPath": "D:\\SEM6\\WSD\\ExpenseTracker\\ExpenseTracker.csproj",
+        "packagesPath": "C:\\Users\\shiva\\.nuget\\packages\\",
+        "outputPath": "D:\\SEM6\\WSD\\ExpenseTracker\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Shivam\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\shiva\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

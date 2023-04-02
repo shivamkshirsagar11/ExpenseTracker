@@ -1,13 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Navbar from './Navbar';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 export default function Profile(props) {
     const navigate = useNavigate()
-    const {name, email} = props.user
+    const {name, email, userId} = props.user
   const [uname, setName] = useState(name);
   const [uemail, setEmail] = useState(email);
   const [hide, setHide] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token === null) {
+      toast.error("Not Authorized");
+      navigate("/");
+    }
+    else if(userId === -1 || userId === undefined){
+      navigate("/");
+    }
+  });
   const handleUpdate = async (e)=>{
     const token = localStorage.getItem('token');
     e.preventDefault();
@@ -37,19 +47,19 @@ export default function Profile(props) {
        navigate("/home")
   }
     return (
-        <div>
-        <Navbar/>
-        Update<input type="checkbox" onClick={()=>setHide(!hide)} /><br/>
-      {!hide && <>
-        Name: <input type="text" value={name}/>
-      Email: <input type="email" value={email}/>
-      </>}
-      {hide && <form>
-      <h2>Update Detail</h2>
-        Name: <input type="text" value={uname} onChange={(e)=>setName(e.target.value)}/>
-      Email: <input type="email" value={uemail} onChange={(e)=>setEmail(e.target.value)}/>
-      <button type="submit" onClick={handleUpdate}>Update</button>
-      </form>}
-    </div>
+<div>
+          <Navbar/>
+          Update<input type="checkbox" onClick={()=>setHide(!hide)} /><br/>
+        {!hide && <>
+          Name: <input type="text" value={name}/>
+        Email: <input type="email" value={email}/>
+        </>}
+        {hide && <form>
+        <h2>Update Detail</h2>
+          Name: <input type="text" value={uname} onChange={(e)=>setName(e.target.value)}/>
+        Email: <input type="email" value={uemail} onChange={(e)=>setEmail(e.target.value)}/>
+        <button type="submit" onClick={handleUpdate}>Update</button>
+        </form>}
+      </div>
   )
 }

@@ -10,6 +10,11 @@ export default function ExpenseList({ userId }) {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token === null) {
+      toast.error("Not Authorized");
+      navigate("/");
+    }
     async function loadExpense() {
       let headersList = {
         Accept: "*/*",
@@ -34,53 +39,56 @@ export default function ExpenseList({ userId }) {
       }
     }
     loadExpense();
-  },[hide, deleteFlag]);
+  }, [hide, deleteFlag]);
   const handleChange = (e) => {
     setEditExpenses({ ...editExpenses, [e.target.name]: e.target.value });
   };
-  const handleEdit = async (e)=>{
+  const handleEdit = async (e) => {
     let headersList = {
-      "Accept": "*/*",
+      Accept: "*/*",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/json"
-     }
-     
-     let bodyContent = JSON.stringify({
-       ...editExpenses
-     });
-     
-     let response = await fetch(`https://localhost:7186/api/Expenses/${editExpenses.id}`, { 
-       method: "PUT",
-       body: bodyContent,
-       headers: headersList
-     });
-     if (response.status !== 204){
-      toast.error("something went wrong")
-      navigate("/home")
-     }
-     toast.info("Expense updated")
-     setHide(!hide)
-  }
-  const handleDelete = async(id)=>{
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    let bodyContent = JSON.stringify({
+      ...editExpenses,
+    });
+
+    let response = await fetch(
+      `https://localhost:7186/api/Expenses/${editExpenses.id}`,
+      {
+        method: "PUT",
+        body: bodyContent,
+        headers: headersList,
+      }
+    );
+    if (response.status !== 204) {
+      toast.error("something went wrong");
+      navigate("/home");
+    }
+    toast.info("Expense updated");
+    setHide(!hide);
+  };
+  const handleDelete = async (id) => {
     let headersList = {
-      "Accept": "*/*",
+      Accept: "*/*",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/json"
-     }
-     
-     let response = await fetch(`https://localhost:7186/api/Expenses/${id}`, { 
-       method: "DELETE",
-       headers: headersList
-     });
-     if (response.status !== 204){
-      toast.error("something went wrong")
-      navigate("/home")
-     }
-     toast.info("Expense Deleted")
-     setDeleteFlag(!deleteFlag)
-  }
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+
+    let response = await fetch(`https://localhost:7186/api/Expenses/${id}`, {
+      method: "DELETE",
+      headers: headersList,
+    });
+    if (response.status !== 204) {
+      toast.error("something went wrong");
+      navigate("/home");
+    }
+    toast.info("Expense Deleted");
+    setDeleteFlag(!deleteFlag);
+  };
   return (
     <div>
       <Navbar />
@@ -116,11 +124,9 @@ export default function ExpenseList({ userId }) {
                     Edit
                   </button>
                 </td>
-                <td><button
-                    onClick={(e)=>handleDelete(ele.id)}
-                  >
-                    Delete
-                  </button></td>
+                <td>
+                  <button onClick={(e) => handleDelete(ele.id)}>Delete</button>
+                </td>
               </tr>
             );
           })}
@@ -137,33 +143,42 @@ export default function ExpenseList({ userId }) {
               <th>Category</th>
             </tr>
             <tr>
+              <td>{editExpenses.id}</td>
               <td>
-              {editExpenses.id}
+                <input
+                  type="text"
+                  name="name"
+                  onChange={handleChange}
+                  value={editExpenses.name}
+                />
               </td>
               <td>
-                <input type="text" name="name" onChange={handleChange} value={editExpenses.name}/>
+                <input
+                  type="date"
+                  name="date"
+                  onChange={handleChange}
+                  value={editExpenses.date}
+                />
               </td>
               <td>
-                <input type="date" name="date" onChange={handleChange} value={editExpenses.date}/>
-              </td>
-              <td>
-                <input type="text" name="amount" onChange={handleChange} value={editExpenses.amount}/>
+                <input
+                  type="text"
+                  name="amount"
+                  onChange={handleChange}
+                  value={editExpenses.amount}
+                />
               </td>
               <td>
                 <select id="type" name="category" onChange={handleChange}>
-                        <option value="chooseOne">{editExpenses.category}</option>
-                        <option value="Card">Card</option>
-                        <option value="Cash">Cash</option>
-                        <option value="UPI">UPI</option>
-                    </select>
+                  <option value="chooseOne">{editExpenses.category}</option>
+                  <option value="Card">Card</option>
+                  <option value="Cash">Cash</option>
+                  <option value="UPI">UPI</option>
+                </select>
               </td>
             </tr>
           </table>
-          <button
-            onClick={handleEdit}
-          >
-            done
-          </button>
+          <button onClick={handleEdit}>done</button>
         </>
       )}
     </div>

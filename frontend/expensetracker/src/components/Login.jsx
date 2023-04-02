@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
+import "./Login.css"
+import LOGO from "./logo (2).png"
 export default function Login() {
   const [email, setEmail] = useState();
   const [pass, setPass] = useState();
@@ -40,20 +42,28 @@ export default function Login() {
   return (
     <div>
       <form>
-        Email:{" "}
-        <input
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="enter email here..."
-        /><br/>
-        Password:{" "}
-        <input
-          type="password"
-          onChange={(e) => setPass(e.target.value)}
-          placeholder="your password"
-        /><br/>
-        <button onClick={handleSubmit}>Submit</button><br/>
-        <Link to="/register">Don't have an account?</Link>
+      <div className="wrapper">
+        <div className="logo">
+            <img src={LOGO} alt=""/>
+        </div>
+        <div className="text-center mt-4 name">
+            Expense Tracker
+        </div>
+        <form className="p-3 mt-3">
+            <div className="form-field d-flex align-items-center">
+                <span className="far fa-user"></span>
+                <input type="text" name="userName" id="userName" placeholder="User Email" onChange={(e)=>setEmail(e.target.value)} autoComplete="new-password"/>
+            </div>
+            <div className="form-field d-flex align-items-center">
+                <span className="fas fa-key"></span>
+                <input type="password" name="password" id="pwd" placeholder="Password" onChange={(e)=>setPass(e.target.value)} autoComplete="new-password"/>
+            </div>
+            <button className="btn mt-3" onClick={handleSubmit}>Login</button>
+        </form>
+        <div className="text-center fs-6">
+            <Link to="/register">Sign up</Link>
+        </div>
+    </div>
       </form>
     </div>
   );
