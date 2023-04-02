@@ -35,17 +35,18 @@ namespace ExpenseTracker.Controllers
 
         // GET: api/Expenses/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Expense>> GetExpense(int id)
+        public async Task<List<Expense>> GetExpense(int id)
         {
+
           if (_context.Expense == null)
           {
-              return NotFound();
+              return new List<Expense>();
           }
-            var expense = await _context.Expense.FindAsync(id);
+            List<Expense> expense = await _context.Expense.Where(e => e.UserId == id).ToListAsync();
 
             if (expense == null)
             {
-                return NotFound();
+                return new List<Expense>();
             }
 
             return expense;
